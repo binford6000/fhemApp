@@ -1,3 +1,10 @@
+# v4.8.2 (08.11.2026)
+## Core
+- Bugfix: set commands with a colon in the value (e.g. 09:15) were not sent to FHEM
+## Header
+- new options to show time and date in mobile view (#150)
+## Datetimepicker
+- new element type datetimepicker for date, time and date+time (#119)
 # v4.8.1 (12.01.2025)
 ## Button
 - Bugfix for popout command
