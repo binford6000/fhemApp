@@ -260,7 +260,7 @@ export const useFhemStore = defineStore('fhem', () => {
             cmdParts = cmd.split(' ')
 
             if(cmdParts.length > 2) {
-                stat.evtBuffer.push({ reading: cmdParts.slice(1, 3).join('-'), value: cmdParts.slice(-1) })
+                stat.evtBuffer.push({ reading: cmdParts.slice(1, 3).join('-'), value: cmdParts[cmdParts.length - 1] })
                 handleEventBuffer(true)
             }
         }
@@ -485,7 +485,7 @@ export const useFhemStore = defineStore('fhem', () => {
             doUpdate(obj[path[0]], path.slice(1), value)
         } else {
             parts = obj[path].split(':')
-            parts[0] = /:/.test(value) ? value.replace(/:/g,'&#058;') : value
+            parts[0] = /:/.test(value) ? String(value).replace(/:/g,'&#058;') : value
             obj[path] = parts.join(':')
         }
     }
