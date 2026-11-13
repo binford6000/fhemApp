@@ -1,4 +1,4 @@
-# v4.9.0 (unreleased)
+# v4.8.3 (13.11.2026)
 ## Menu
 - new option long for menu items: the item is only executed after a long press (1 second), a short click shows a hint
 - new property current: highlights the menu item that matches the current value (e.g. scene-state::%s)
