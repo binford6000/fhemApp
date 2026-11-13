@@ -530,12 +530,28 @@ Menüeinträge können auch dynamisch von FHEM übergeben werden. Der Rückgabew
 |name||Name der im DropDown-Menü angezeiugt wird. Alternativ FHEM *get-Befehl* [string]|
 |cmd||FHEM Befehl, der beim Klick auf den Menüpunkt an FHEM gesendet wird. Bei dynamisch erzeugten Menüeinträgen kann die [Ersetzung](#ersetzungen) **%v** verwendet werden. [string]|
 |convert||**regExp** [string] Relevant bei Verwendung dynamisch erzeugter Menüeinträge. Der anstelle von **%v** verwendete Wert wird in einen regulären Ausdruck umgewandelt. Relevant bei SONOS Playern|
+|long|false|legt fest, ob der Menüpunkt erst durch langes Drücken (1 Sekunde) ausgelöst wird. Ein kurzer Klick zeigt dann nur den Hinweis *lang drücken* an. Solche Menüpunkte werden mit einem Icon gekennzeichnet, während des Drückens zeigt ein Balken den Fortschritt. Bei dynamisch erzeugten Menüeinträgen gilt die Einstellung für alle Einträge der Definition. [boolean]|
 
 |Beispiel|Beschreibung|
 |---|---|
 |`::30 Minuten:set switch on-for-timer 1800`|Zeigt im Menü den Menüpunkt `30 Minuten` an und sendet bei Klick den Befehl `set switch on-for-timer 1800` an FHEM. Dabei wird im Panel unter dem [Element devices](#element-devices) nach dem Schlüssel `switch` gesucht und falls vorhanden, durch den Name des FHEM Devices ersetzt.|
 |`::get dev scenes:set dev scene %v`|ermittelt für ein FHEM **lightScene** Device mit dem Devicekey `dev` alle Szenen und generiert dynamische Menüeinträge|
 |`player-FavouritesListAlias::%s:set player StartFavourite %v:regExp`|ermittelt für ein FHEM **SONOSplayer** Device alle Favouriten und generiert dynamische Menüeinträge. Über die Konvertierung **regExp** werden die Namen der Favouriten in reguläre Ausdrücke in den *set-Befehlen* umgewandelt.|
+|`::Aus:set switch off::true`|Zeigt im Menü den Menüpunkt `Aus` an. Der Befehl `set switch off` wird erst gesendet, wenn der Menüpunkt lang gedrückt wird. Der Parameter `convert` bleibt dabei leer.|
+### Level Element Menu current
+Hebt den Menüpunkt farblich hervor, der dem aktuellen Wert entspricht. Verglichen wird der ermittelte Wert mit dem Text des Menüpunktes (bei dynamisch erzeugten Menüeinträgen mit dem Wert von FHEM, also vor dem Ersetzen von `_` durch Leerzeichen). Sobald ein Wert ermittelt wird, erhalten alle Menüpunkte ein Icon: der aktuelle Menüpunkt ein Häkchen, die übrigen einen Platzhalter, damit die Texte bündig bleiben. Wenn dieses Element nicht definiert ist, wird kein Menüpunkt hervorgehoben.
+
+|Parameter|Default|Beschreibung|
+|---|---|---|
+|reading||siehe Parameter [reading](#konfiguration-der-elemente)|
+|value||siehe Parameter [value](#konfiguration-der-elemente)|
+|current||aktueller Wert, in der Regel `%s` (siehe auch [Ersetzungen](#ersetzungen)) [string]|
+|color|primary|Farbe für die Hervorhebung des aktuellen Menüpunktes (siehe auch [Farben](#farben)) [string]|
+
+|Beispiel|Beschreibung|
+|---|---|
+|`scene-state::%s`|hebt im Menü den Menüpunkt hervor, dessen Text dem Reading `state` des Devices mit dem Devicekey `scene` entspricht|
+|`scene-state::%s:success`|wie oben, die Hervorhebung erfolgt in der Farbe `success`|
 ### Level Element Info text
 Zeigt bis zu 3 Texte (text, text2, text3) an. Dabei wird `text` immer über `text2` und `text3` angezeigt. Weiterhin wird `text2` immer links neben `text3` angezeigt.
 

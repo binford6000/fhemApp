@@ -173,6 +173,9 @@
             "time": "Time",
             "ok": "Ok",
             "cancel": "Cancel"
+        },
+        "menu": {
+            "longPress": "press and hold"
         }
     }
 }
