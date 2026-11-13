@@ -1,3 +1,7 @@
+# v4.9.0 (unreleased)
+## Menu
+- new option long for menu items: the item is only executed after a long press (1 second), a short click shows a hint
+- new property current: highlights the menu item that matches the current value (e.g. scene-state::%s)
 # v4.8.2 (08.11.2026)
 ## Core
 - Bugfix: set commands with a colon in the value (e.g. 09:15) were not sent to FHEM

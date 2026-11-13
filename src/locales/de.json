@@ -173,6 +173,9 @@
             "time": "Uhrzeit",
             "ok": "Ok",
             "cancel": "Abbruch"
+        },
+        "menu": {
+            "longPress": "lang drücken"
         }
     }
 }
