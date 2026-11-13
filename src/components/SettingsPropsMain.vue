@@ -78,7 +78,7 @@
         menu: [
             { type: 'defs', required: false, prop: 'btn', def: 'reading:value:icon:disabled:color:variant', help: 'level-element-menu-btn', assist: 'props' },    
             { type: 'defs', required: false, prop: 'menu', def: 'reading:value:name:cmd:convert:long', help: 'level-element-menu-menu', assist: 'props' },
-            { type: 'defs', required: false, prop: 'current', def: 'reading:value:current:color', help: 'level-element-menu-current', assist: 'props' },
+            { type: 'defs', required: false, prop: 'current', def: 'reading:value:current:color:convert', help: 'level-element-menu-current', assist: 'props' },
             { type: 'defs', required: false, prop: 'divider', def: 'reading:value:divider', help: 'level-element-divider', assist: 'props' },
             { type: 'defs', required: false, prop: 'size', def: 'reading:value:size', help: 'level-element-size', assist: 'props' }
         ],

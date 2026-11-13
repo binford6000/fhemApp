@@ -2,6 +2,7 @@
     import { computed, watch, ref } from 'vue'
     import { useFhemStore } from '@/stores/fhem'
     import { useLongPress } from '@/composables/useLongPress'
+    import { findCurrentIndex } from '@/composables/menuCurrent'
 
     const props = defineProps({
         el: Object,
@@ -38,17 +39,19 @@
 
     // current value of the menu, used to highlight the matching menu item
     const current = computed(() => {
-        return fhem.handleDefs(props.el.current, ['current', 'color'], ['', 'primary'])
+        return fhem.handleDefs(props.el.current, ['current', 'color', 'convert'], ['', 'primary', null])
     })
 
     const hasCurrent = computed(() => {
         return current.value.current !== null && current.value.current !== undefined && String(current.value.current) !== ''
     })
 
-    function isCurrent(item) {
-        if(!hasCurrent.value) return false
+    const currentIdx = computed(() => {
+        return findCurrentIndex(menuItems.value.map((item) => item.val), current.value.current, current.value.convert)
+    })
 
-        return String(item.val).trim() === String(current.value.current).trim()
+    function isCurrent(idx) {
+        return idx === currentIdx.value
     }
 
     async function loadMenu() {
@@ -141,9 +144,9 @@
                 v-for="(item, idx) of menuItems"
                 :key="idx"
                 :value="idx"
-                :active="isCurrent(item)"
+                :active="isCurrent(idx)"
                 :color="current.color"
-                :prepend-icon="hasCurrent ? (isCurrent(item) ? 'mdi-check' : 'mdi-blank') : undefined"
+                :prepend-icon="hasCurrent ? (isCurrent(idx) ? 'mdi-check' : 'mdi-blank') : undefined"
                 :append-icon="item.long ? 'mdi-gesture-tap-hold' : undefined"
                 :class="{ 'fa-menu-long': item.long }"
                 @click="item.long ? null : runItem(item)"

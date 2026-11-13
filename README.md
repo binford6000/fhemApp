@@ -86,7 +86,7 @@ Nachdem du Einstellungen in **FHEMApp** angepasst hast, müssen diese gespeicher
 # Allgemeine Einstellungen
 
 ## Kopfzeile
-In den Einstellungen für die Kopfzeile kann die Anzeige für das Datum und die Uhrzeit vom FHEM Server in der Desktopansicht aktiviert werden. Es kann das Navigationsmenü in der Desktopansicht optional ausgeblendet werden und die Anzeige der aktuellen Seite für die mobile Ansicht aktiviert werden. Weiterhin kann ein Hintergrundbild für die Kopfzeile festgelegt werden. Die Verwendung des Farbfilters mit einer [CSS Linear Gradient Definition](https://www.w3schools.com/css/css3_gradients.asp) ermöglicht ein Anpassung des Hintergrundbildes an das festgelegte Farbschema. 
+In den Einstellungen für die Kopfzeile kann die Anzeige für das Datum und die Uhrzeit vom FHEM Server in der Desktopansicht aktiviert werden. Über die Optionen *Uhrzeit mobil* und *Datum mobil* werden Uhrzeit bzw. Datum zusätzlich auch in der mobilen Ansicht angezeigt (nur wenn die jeweilige Anzeige für die Desktopansicht aktiviert ist). Es kann das Navigationsmenü in der Desktopansicht optional ausgeblendet werden und die Anzeige der aktuellen Seite für die mobile Ansicht aktiviert werden. Weiterhin kann ein Hintergrundbild für die Kopfzeile festgelegt werden. Die Verwendung des Farbfilters mit einer [CSS Linear Gradient Definition](https://www.w3schools.com/css/css3_gradients.asp) ermöglicht ein Anpassung des Hintergrundbildes an das festgelegte Farbschema. 
 
 ## Farbschema
 In **FHEMApp** werden zwei Farbschemen (dunkel und hell) unterstützt. Die einzelnen Farben können für beide Farbschemen wie im Abschnitt [Farben](#farben) beschrieben, angepasst werden. Beim Öffnen von **FHEMApp** wird das Farbschema (dunkel bzw. hell) aus den Einstellungen des Browsers bzw. des Betriebssystems verwendet. Zusätzlich kann das Farbschema wie folgt gesteuert werden.
@@ -394,7 +394,7 @@ Es stehen folgende Typen zur Verfügung
 |slider|Es kann ein Slider zu Steuerung von Aktoren konfiguriert werden|
 |image|Es kann ein Bild über eine URL angezeigt werden|
 |iframe|Es kann ein HTML-iframe über eine URL eingebettet werden|
-|menu|Es kann ein DropDown-Menü zur Steuerung verschiedener Aktoren bzw. Aktorwerte konfiguriert werden|
+|menu|Es kann ein DropDown-Menü zur Steuerung verschiedener Aktoren bzw. Aktorwerte konfiguriert werden. Menüpunkte können optional erst durch langes Drücken ausgelöst werden, der aktuelle Wert kann hervorgehoben werden|
 |chart|Es kann ein Chart angezeigt werden|
 |colorpicker|Es kann ein Slider zur Steuerung von RGB Lights konfiguriert werden|
 |datetimepicker|Es kann ein Datum, eine Uhrzeit oder beides ausgewählt und an FHEM gesendet werden|
@@ -539,7 +539,7 @@ Menüeinträge können auch dynamisch von FHEM übergeben werden. Der Rückgabew
 |`player-FavouritesListAlias::%s:set player StartFavourite %v:regExp`|ermittelt für ein FHEM **SONOSplayer** Device alle Favouriten und generiert dynamische Menüeinträge. Über die Konvertierung **regExp** werden die Namen der Favouriten in reguläre Ausdrücke in den *set-Befehlen* umgewandelt.|
 |`::Aus:set switch off::true`|Zeigt im Menü den Menüpunkt `Aus` an. Der Befehl `set switch off` wird erst gesendet, wenn der Menüpunkt lang gedrückt wird. Der Parameter `convert` bleibt dabei leer.|
 ### Level Element Menu current
-Hebt den Menüpunkt farblich hervor, der dem aktuellen Wert entspricht. Verglichen wird der ermittelte Wert mit dem Text des Menüpunktes (bei dynamisch erzeugten Menüeinträgen mit dem Wert von FHEM, also vor dem Ersetzen von `_` durch Leerzeichen). Sobald ein Wert ermittelt wird, erhalten alle Menüpunkte ein Icon: der aktuelle Menüpunkt ein Häkchen, die übrigen einen Platzhalter, damit die Texte bündig bleiben. Wenn dieses Element nicht definiert ist, wird kein Menüpunkt hervorgehoben.
+Hebt den Menüpunkt farblich hervor, der dem aktuellen Wert entspricht. Verglichen wird der ermittelte Wert mit dem Text des Menüpunktes (bei dynamisch erzeugten Menüeinträgen mit dem Wert von FHEM, also vor dem Ersetzen von `_` durch Leerzeichen). Es wird immer höchstens ein Menüpunkt hervorgehoben. Sobald ein Wert ermittelt wird, erhalten alle Menüpunkte ein Icon: der aktuelle Menüpunkt ein Häkchen, die übrigen einen Platzhalter, damit die Texte bündig bleiben. Wenn dieses Element nicht definiert ist, wird kein Menüpunkt hervorgehoben.
 
 |Parameter|Default|Beschreibung|
 |---|---|---|
@@ -547,11 +547,13 @@ Hebt den Menüpunkt farblich hervor, der dem aktuellen Wert entspricht. Verglich
 |value||siehe Parameter [value](#konfiguration-der-elemente)|
 |current||aktueller Wert, in der Regel `%s` (siehe auch [Ersetzungen](#ersetzungen)) [string]|
 |color|primary|Farbe für die Hervorhebung des aktuellen Menüpunktes (siehe auch [Farben](#farben)) [string]|
+|convert||ohne Angabe wird exakt verglichen (Leerzeichen am Anfang und Ende werden ignoriert). **regExp** [string] vergleicht über ein Muster: Ein Menüpunkt gilt als aktuell, wenn sein Text im aktuellen Wert enthalten ist. Groß- und Kleinschreibung wird dabei ignoriert, `_` und Leerzeichen gelten als gleich, alle anderen Zeichen werden wörtlich verglichen. Ein exakter Treffer hat immer Vorrang. Passen mehrere Menüpunkte, wird der mit dem längsten Text hervorgehoben (z.B. bei `AppleTV (HDMI2)` der Menüpunkt `AppleTV` und nicht `TV`).|
 
 |Beispiel|Beschreibung|
 |---|---|
 |`scene-state::%s`|hebt im Menü den Menüpunkt hervor, dessen Text dem Reading `state` des Devices mit dem Devicekey `scene` entspricht|
 |`scene-state::%s:success`|wie oben, die Hervorhebung erfolgt in der Farbe `success`|
+|`tv-input::%s::regExp`|hebt bei einem Reading-Wert wie `TV (HDMI1)` den Menüpunkt `TV` hervor. Die Farbe bleibt dabei leer und damit `primary`|
 ### Level Element Info text
 Zeigt bis zu 3 Texte (text, text2, text3) an. Dabei wird `text` immer über `text2` und `text3` angezeigt. Weiterhin wird `text2` immer links neben `text3` angezeigt.
 
