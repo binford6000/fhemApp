@@ -1,3 +1,8 @@
+# v4.8.4 (13.11.2026)
+## Menu
+- property current: new option convert regExp to highlight menu items by pattern (current value contains the item text)
+## Docs
+- README: menu current with pattern comparison, header options for time and date in mobile view
 # v4.8.3 (13.11.2026)
 ## Menu
 - new option long for menu items: the item is only executed after a long press (1 second), a short click shows a hint
